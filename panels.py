@@ -30,12 +30,12 @@ def _connect_section() -> ui.UINode:
             children=[
                 ui.Stack(direction="v", gap=1, align="stretch", children=[
                     ui.Text("Node-RED HTTPS URL", variant="caption"),
-                    ui.Input(param_name="base_url", required=True,
+                    ui.Input(param_name="base_url",
                              placeholder="https://flows.example.com"),
                 ]),
                 ui.Stack(direction="v", gap=1, align="stretch", children=[
                     ui.Text("Admin API access token", variant="caption"),
-                    ui.Password(param_name="access_token", required=True,
+                    ui.Password(param_name="access_token",
                                 placeholder="Paste a Node-RED access token"),
                 ]),
                 ui.Stack(direction="v", gap=1, align="stretch", children=[
