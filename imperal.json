@@ -1,0 +1,3592 @@
+{
+  "manifest_schema_version": 3,
+  "sdk_version": "5.11.0",
+  "app_id": "node-red-connector",
+  "version": "0.1.0",
+  "name": "Node-RED",
+  "description": "Connect your own Node-RED runtimes to inspect and manage flows, settings, nodes, projects and library resources through the official Admin HTTP API, with Imperal health audits and safe deployment analysis.",
+  "icon": "icon.svg",
+  "actions_explicit": true,
+  "system": false,
+  "capabilities": [
+    "node-red:read",
+    "node-red:write"
+  ],
+  "tools": [
+    {
+      "name": "connect_node_red",
+      "description": "Connect a user-owned Node-RED runtime by verifying its HTTPS Admin API URL and access token before saving them.",
+      "action_type": "write",
+      "chain_callable": true,
+      "effects": [
+        "node-red.provider.connected"
+      ],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "base_url": {
+            "description": "HTTPS Node-RED editor/admin URL, e.g. https://flows.example.com.",
+            "title": "Base Url",
+            "type": "string"
+          },
+          "access_token": {
+            "description": "Node-RED Admin API access token with required permissions.",
+            "title": "Access Token",
+            "type": "string"
+          },
+          "label": {
+            "default": "",
+            "description": "Friendly environment label, e.g. Production.",
+            "title": "Label",
+            "type": "string"
+          }
+        },
+        "required": [
+          "base_url",
+          "access_token"
+        ],
+        "title": "ConnectNodeRedParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "default": "",
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          }
+        },
+        "title": "ProviderConnection",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.connect_node_red",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "list_connections",
+      "description": "List connected Node-RED runtimes without exposing tokens.",
+      "action_type": "read",
+      "chain_callable": true,
+      "effects": [],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {},
+        "title": "NoParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "$defs": {
+          "ProviderConnection": {
+            "properties": {
+              "id": {
+                "default": "",
+                "title": "Id",
+                "type": "string"
+              },
+              "title": {
+                "default": "",
+                "title": "Title",
+                "type": "string"
+              },
+              "kind": {
+                "default": "",
+                "title": "Kind",
+                "type": "string"
+              },
+              "subtitle": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Subtitle"
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Description"
+              },
+              "status": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Status"
+              },
+              "url": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Url"
+              },
+              "detail": {
+                "default": "",
+                "title": "Detail",
+                "type": "string"
+              }
+            },
+            "title": "ProviderConnection",
+            "type": "object",
+            "x-sdl": "entity"
+          }
+        },
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Id"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/$defs/ProviderConnection"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "items"
+        ],
+        "title": "ProviderConnectionList",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.list_connections",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "disconnect_node_red",
+      "description": "Disconnect one Node-RED runtime by deleting only its saved access token and URL; nothing changes in Node-RED.",
+      "action_type": "write",
+      "chain_callable": true,
+      "effects": [
+        "node-red.provider.disconnected"
+      ],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "title": "Connection Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "connection_id"
+        ],
+        "title": "DisconnectNodeRedParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Id"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "ok": {
+            "title": "Ok",
+            "type": "boolean"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "ok"
+        ],
+        "title": "DeleteResult",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.disconnect_node_red",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "list_flows",
+      "description": "List Node-RED flow tabs from the connected runtime.",
+      "action_type": "read",
+      "chain_callable": true,
+      "effects": [],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          }
+        },
+        "title": "ListFlowsParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "$defs": {
+          "Flow": {
+            "properties": {
+              "id": {
+                "default": "",
+                "title": "Id",
+                "type": "string"
+              },
+              "title": {
+                "title": "Title",
+                "type": "string"
+              },
+              "kind": {
+                "default": "",
+                "title": "Kind",
+                "type": "string"
+              },
+              "subtitle": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Subtitle"
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Description"
+              },
+              "status": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Status"
+              },
+              "url": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Url"
+              },
+              "type": {
+                "default": "",
+                "title": "Type",
+                "type": "string"
+              },
+              "label": {
+                "default": "",
+                "title": "Label",
+                "type": "string"
+              },
+              "disabled": {
+                "default": false,
+                "title": "Disabled",
+                "type": "boolean"
+              },
+              "node_count": {
+                "default": 0,
+                "title": "Node Count",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "title"
+            ],
+            "title": "Flow",
+            "type": "object",
+            "x-sdl": "entity"
+          }
+        },
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Id"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/$defs/Flow"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "revision": {
+            "default": "",
+            "title": "Revision",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "items"
+        ],
+        "title": "FlowList",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.list_flows",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "get_flow",
+      "description": "Read one complete Node-RED flow by id.",
+      "action_type": "read",
+      "chain_callable": true,
+      "effects": [],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "resource_id": {
+            "description": "Node-RED resource id.",
+            "title": "Resource Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "resource_id"
+        ],
+        "title": "GetFlowParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "default": "",
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          },
+          "raw": {
+            "additionalProperties": true,
+            "title": "Raw",
+            "type": "object"
+          }
+        },
+        "title": "JsonRecord",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.get_flow",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "create_flow",
+      "description": "Create a Node-RED flow from an explicit complete flow object, then deploy according to the selected deployment type.",
+      "action_type": "write",
+      "chain_callable": true,
+      "effects": [
+        "node-red.flow.created"
+      ],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "flow": {
+            "additionalProperties": true,
+            "description": "Complete Node-RED flow object, with explicit id/type/label/nodes fields.",
+            "title": "Flow",
+            "type": "object"
+          },
+          "deployment_type": {
+            "default": "flows",
+            "description": "Node-RED deployment type.",
+            "pattern": "^(nodes|flows|full|reload)$",
+            "title": "Deployment Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "flow"
+        ],
+        "title": "CreateFlowParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "default": "",
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          },
+          "raw": {
+            "additionalProperties": true,
+            "title": "Raw",
+            "type": "object"
+          }
+        },
+        "title": "JsonRecord",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.create_flow",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "update_flow",
+      "description": "Replace one Node-RED flow with the explicit supplied definition and deployment type.",
+      "action_type": "write",
+      "chain_callable": true,
+      "effects": [
+        "node-red.flow.updated"
+      ],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "resource_id": {
+            "description": "Node-RED resource id.",
+            "title": "Resource Id",
+            "type": "string"
+          },
+          "flow": {
+            "additionalProperties": true,
+            "description": "Complete replacement flow object from get_flow, edited explicitly.",
+            "title": "Flow",
+            "type": "object"
+          },
+          "deployment_type": {
+            "default": "flows",
+            "pattern": "^(nodes|flows|full|reload)$",
+            "title": "Deployment Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "resource_id",
+          "flow"
+        ],
+        "title": "UpdateFlowParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "default": "",
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          },
+          "raw": {
+            "additionalProperties": true,
+            "title": "Raw",
+            "type": "object"
+          }
+        },
+        "title": "JsonRecord",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.update_flow",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "delete_flow",
+      "description": "Permanently delete one Node-RED flow. This removes the flow from the runtime.",
+      "action_type": "destructive",
+      "chain_callable": true,
+      "effects": [
+        "node-red.flow.deleted"
+      ],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "resource_id": {
+            "description": "Node-RED resource id.",
+            "title": "Resource Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "resource_id"
+        ],
+        "title": "DeleteFlowParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Id"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "ok": {
+            "title": "Ok",
+            "type": "boolean"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "ok"
+        ],
+        "title": "DeleteResult",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.delete_flow",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "preview_flow_deployment",
+      "description": "Analyse a proposed flow locally before writing it to Node-RED; this makes no provider changes.",
+      "action_type": "read",
+      "chain_callable": true,
+      "effects": [],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "flow": {
+            "additionalProperties": true,
+            "description": "Proposed flow to analyse only; no provider write occurs.",
+            "title": "Flow",
+            "type": "object"
+          }
+        },
+        "required": [
+          "flow"
+        ],
+        "title": "FlowPreviewParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Id"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "connection_id": {
+            "default": "",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "flow_count": {
+            "default": 0,
+            "title": "Flow Count",
+            "type": "integer"
+          },
+          "disabled_flow_count": {
+            "default": 0,
+            "title": "Disabled Flow Count",
+            "type": "integer"
+          },
+          "node_type_count": {
+            "default": 0,
+            "title": "Node Type Count",
+            "type": "integer"
+          },
+          "risk_markers": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Risk Markers",
+            "type": "array"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title"
+        ],
+        "title": "Audit",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.preview_flow_deployment",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "list_nodes",
+      "description": "List installed Node-RED node modules and node definitions exposed by this runtime.",
+      "action_type": "read",
+      "chain_callable": true,
+      "effects": [],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          }
+        },
+        "title": "ListNodesParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "$defs": {
+          "JsonRecord": {
+            "properties": {
+              "id": {
+                "default": "",
+                "title": "Id",
+                "type": "string"
+              },
+              "title": {
+                "default": "",
+                "title": "Title",
+                "type": "string"
+              },
+              "kind": {
+                "default": "",
+                "title": "Kind",
+                "type": "string"
+              },
+              "subtitle": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Subtitle"
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Description"
+              },
+              "status": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Status"
+              },
+              "url": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Url"
+              },
+              "detail": {
+                "default": "",
+                "title": "Detail",
+                "type": "string"
+              },
+              "raw": {
+                "additionalProperties": true,
+                "title": "Raw",
+                "type": "object"
+              }
+            },
+            "title": "JsonRecord",
+            "type": "object",
+            "x-sdl": "entity"
+          }
+        },
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Id"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/$defs/JsonRecord"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "items"
+        ],
+        "title": "JsonRecordList",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.list_nodes",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "list_projects",
+      "description": "List Node-RED projects when projects are enabled on this runtime.",
+      "action_type": "read",
+      "chain_callable": true,
+      "effects": [],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          }
+        },
+        "title": "ListProjectsParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "$defs": {
+          "JsonRecord": {
+            "properties": {
+              "id": {
+                "default": "",
+                "title": "Id",
+                "type": "string"
+              },
+              "title": {
+                "default": "",
+                "title": "Title",
+                "type": "string"
+              },
+              "kind": {
+                "default": "",
+                "title": "Kind",
+                "type": "string"
+              },
+              "subtitle": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Subtitle"
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Description"
+              },
+              "status": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Status"
+              },
+              "url": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Url"
+              },
+              "detail": {
+                "default": "",
+                "title": "Detail",
+                "type": "string"
+              },
+              "raw": {
+                "additionalProperties": true,
+                "title": "Raw",
+                "type": "object"
+              }
+            },
+            "title": "JsonRecord",
+            "type": "object",
+            "x-sdl": "entity"
+          }
+        },
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Id"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/$defs/JsonRecord"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "items"
+        ],
+        "title": "JsonRecordList",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.list_projects",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "get_runtime_settings",
+      "description": "Read safe Node-RED runtime settings and capability metadata.",
+      "action_type": "read",
+      "chain_callable": true,
+      "effects": [],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          }
+        },
+        "title": "GetSettingsParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "default": "",
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          },
+          "raw": {
+            "additionalProperties": true,
+            "title": "Raw",
+            "type": "object"
+          }
+        },
+        "title": "JsonRecord",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.get_runtime_settings",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "audit_node_red_runtime",
+      "description": "Build a read-only Node-RED health report: flow totals, disabled flows, node types and side-effect markers.",
+      "action_type": "read",
+      "chain_callable": true,
+      "effects": [],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          }
+        },
+        "title": "AuditParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Id"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "connection_id": {
+            "default": "",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "flow_count": {
+            "default": 0,
+            "title": "Flow Count",
+            "type": "integer"
+          },
+          "disabled_flow_count": {
+            "default": 0,
+            "title": "Disabled Flow Count",
+            "type": "integer"
+          },
+          "node_type_count": {
+            "default": 0,
+            "title": "Node Type Count",
+            "type": "integer"
+          },
+          "risk_markers": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Risk Markers",
+            "type": "array"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title"
+        ],
+        "title": "Audit",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.audit_node_red_runtime",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "list_credentials",
+      "description": "List Node-RED credential definitions/metadata only. Secret credential values are never requested or returned.",
+      "action_type": "read",
+      "chain_callable": true,
+      "effects": [],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          }
+        },
+        "title": "ListCredentialsParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "$defs": {
+          "JsonRecord": {
+            "properties": {
+              "id": {
+                "default": "",
+                "title": "Id",
+                "type": "string"
+              },
+              "title": {
+                "default": "",
+                "title": "Title",
+                "type": "string"
+              },
+              "kind": {
+                "default": "",
+                "title": "Kind",
+                "type": "string"
+              },
+              "subtitle": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Subtitle"
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Description"
+              },
+              "status": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Status"
+              },
+              "url": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Url"
+              },
+              "detail": {
+                "default": "",
+                "title": "Detail",
+                "type": "string"
+              },
+              "raw": {
+                "additionalProperties": true,
+                "title": "Raw",
+                "type": "object"
+              }
+            },
+            "title": "JsonRecord",
+            "type": "object",
+            "x-sdl": "entity"
+          }
+        },
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Id"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/$defs/JsonRecord"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "items"
+        ],
+        "title": "JsonRecordList",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.list_credentials",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "get_node_module",
+      "description": "Read one installed Node-RED node module's public metadata by exact module name.",
+      "action_type": "read",
+      "chain_callable": true,
+      "effects": [],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "module_name": {
+            "description": "Exact installed Node-RED module name from list_nodes.",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Module Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "module_name"
+        ],
+        "title": "NodeModuleParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "default": "",
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          },
+          "raw": {
+            "additionalProperties": true,
+            "title": "Raw",
+            "type": "object"
+          }
+        },
+        "title": "JsonRecord",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.get_node_module",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "install_node_module",
+      "description": "Install an explicit Node-RED node npm module. This changes runtime code and may require a restart/reload depending on the runtime.",
+      "action_type": "write",
+      "chain_callable": true,
+      "effects": [
+        "node-red.module.installed"
+      ],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "module_name": {
+            "description": "Exact npm package name for the Node-RED node module.",
+            "pattern": "^(?:@[-A-Za-z0-9._]+/)?node-red-[A-Za-z0-9._-]+$",
+            "title": "Module Name",
+            "type": "string"
+          },
+          "version": {
+            "default": "",
+            "description": "Optional exact npm package version; omit for the provider default.",
+            "maxLength": 100,
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "module_name"
+        ],
+        "title": "InstallModuleParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "default": "",
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          },
+          "raw": {
+            "additionalProperties": true,
+            "title": "Raw",
+            "type": "object"
+          }
+        },
+        "title": "JsonRecord",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.install_node_module",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "remove_node_module",
+      "description": "Remove an explicit Node-RED node module. This can disable flows that use its node types.",
+      "action_type": "destructive",
+      "chain_callable": true,
+      "effects": [
+        "node-red.module.removed"
+      ],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "module_name": {
+            "description": "Exact installed Node-RED module name from list_nodes.",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Module Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "module_name"
+        ],
+        "title": "NodeModuleParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Id"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "ok": {
+            "title": "Ok",
+            "type": "boolean"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "ok"
+        ],
+        "title": "DeleteResult",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.remove_node_module",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "list_library_entries",
+      "description": "List Node-RED library entries in an explicit safe library category and path.",
+      "action_type": "read",
+      "chain_callable": true,
+      "effects": [],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "library_type": {
+            "default": "flows",
+            "pattern": "^(flows|functions|templates)$",
+            "title": "Library Type",
+            "type": "string"
+          },
+          "path": {
+            "default": "",
+            "description": "Optional library path.",
+            "title": "Path",
+            "type": "string"
+          }
+        },
+        "title": "ListLibraryParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "$defs": {
+          "JsonRecord": {
+            "properties": {
+              "id": {
+                "default": "",
+                "title": "Id",
+                "type": "string"
+              },
+              "title": {
+                "default": "",
+                "title": "Title",
+                "type": "string"
+              },
+              "kind": {
+                "default": "",
+                "title": "Kind",
+                "type": "string"
+              },
+              "subtitle": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Subtitle"
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Description"
+              },
+              "status": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Status"
+              },
+              "url": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Url"
+              },
+              "detail": {
+                "default": "",
+                "title": "Detail",
+                "type": "string"
+              },
+              "raw": {
+                "additionalProperties": true,
+                "title": "Raw",
+                "type": "object"
+              }
+            },
+            "title": "JsonRecord",
+            "type": "object",
+            "x-sdl": "entity"
+          }
+        },
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Id"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/$defs/JsonRecord"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "items"
+        ],
+        "title": "JsonRecordList",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.list_library_entries",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "get_library_entry",
+      "description": "Read one explicit Node-RED library entry.",
+      "action_type": "read",
+      "chain_callable": true,
+      "effects": [],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "library_type": {
+            "default": "flows",
+            "description": "Node-RED library category.",
+            "pattern": "^(flows|functions|templates)$",
+            "title": "Library Type",
+            "type": "string"
+          },
+          "path": {
+            "default": "",
+            "description": "Library entry path relative to its category.",
+            "maxLength": 500,
+            "title": "Path",
+            "type": "string"
+          }
+        },
+        "title": "LibraryEntryParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "default": "",
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          },
+          "raw": {
+            "additionalProperties": true,
+            "title": "Raw",
+            "type": "object"
+          }
+        },
+        "title": "JsonRecord",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.get_library_entry",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "write_library_entry",
+      "description": "Create or replace one explicit Node-RED library entry.",
+      "action_type": "write",
+      "chain_callable": true,
+      "effects": [
+        "node-red.library.updated"
+      ],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "library_type": {
+            "default": "flows",
+            "description": "Node-RED library category.",
+            "pattern": "^(flows|functions|templates)$",
+            "title": "Library Type",
+            "type": "string"
+          },
+          "path": {
+            "default": "",
+            "description": "Library entry path relative to its category.",
+            "maxLength": 500,
+            "title": "Path",
+            "type": "string"
+          },
+          "body": {
+            "description": "Complete text content for this library entry.",
+            "maxLength": 500000,
+            "title": "Body",
+            "type": "string"
+          }
+        },
+        "required": [
+          "body"
+        ],
+        "title": "WriteLibraryEntryParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "default": "",
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          },
+          "raw": {
+            "additionalProperties": true,
+            "title": "Raw",
+            "type": "object"
+          }
+        },
+        "title": "JsonRecord",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.write_library_entry",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "delete_library_entry",
+      "description": "Permanently delete one explicit Node-RED library entry.",
+      "action_type": "destructive",
+      "chain_callable": true,
+      "effects": [
+        "node-red.library.deleted"
+      ],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "library_type": {
+            "default": "flows",
+            "description": "Node-RED library category.",
+            "pattern": "^(flows|functions|templates)$",
+            "title": "Library Type",
+            "type": "string"
+          },
+          "path": {
+            "default": "",
+            "description": "Library entry path relative to its category.",
+            "maxLength": 500,
+            "title": "Path",
+            "type": "string"
+          }
+        },
+        "title": "DeleteLibraryEntryParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Id"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "ok": {
+            "title": "Ok",
+            "type": "boolean"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "ok"
+        ],
+        "title": "DeleteResult",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.delete_library_entry",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "get_active_project",
+      "description": "Read the active Node-RED project when projects are enabled.",
+      "action_type": "read",
+      "chain_callable": true,
+      "effects": [],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "project_name": {
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Project Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "project_name"
+        ],
+        "title": "GetProjectParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "default": "",
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          },
+          "raw": {
+            "additionalProperties": true,
+            "title": "Raw",
+            "type": "object"
+          }
+        },
+        "title": "JsonRecord",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.get_active_project",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "create_project",
+      "description": "Create an explicit Node-RED project where the runtime exposes project management.",
+      "action_type": "write",
+      "chain_callable": true,
+      "effects": [
+        "node-red.project.created"
+      ],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "project_name": {
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Project Name",
+            "type": "string"
+          },
+          "description": {
+            "default": "",
+            "maxLength": 500,
+            "title": "Description",
+            "type": "string"
+          }
+        },
+        "required": [
+          "project_name"
+        ],
+        "title": "ProjectCreateParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "default": "",
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          },
+          "raw": {
+            "additionalProperties": true,
+            "title": "Raw",
+            "type": "object"
+          }
+        },
+        "title": "JsonRecord",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.create_project",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "activate_project",
+      "description": "Activate an explicit Node-RED project. This changes the runtime's active project and may reload flows.",
+      "action_type": "write",
+      "chain_callable": true,
+      "effects": [
+        "node-red.project.activated"
+      ],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "project_name": {
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Project Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "project_name"
+        ],
+        "title": "ActivateProjectParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "default": "",
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          },
+          "raw": {
+            "additionalProperties": true,
+            "title": "Raw",
+            "type": "object"
+          }
+        },
+        "title": "JsonRecord",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.activate_project",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    },
+    {
+      "name": "update_runtime_settings",
+      "description": "Update explicit provider-supported Node-RED runtime settings. Unsupported fields are rejected by Node-RED.",
+      "action_type": "write",
+      "chain_callable": true,
+      "effects": [
+        "node-red.settings.updated"
+      ],
+      "id_projection": "",
+      "params_schema": {
+        "properties": {
+          "connection_id": {
+            "default": "",
+            "description": "Connection id from list_connections; omit only when one connection exists.",
+            "title": "Connection Id",
+            "type": "string"
+          },
+          "settings": {
+            "additionalProperties": true,
+            "description": "Explicit provider-supported settings fields only.",
+            "title": "Settings",
+            "type": "object"
+          }
+        },
+        "required": [
+          "settings"
+        ],
+        "title": "UpdateRuntimeSettingsParams",
+        "type": "object"
+      },
+      "return_schema": {
+        "properties": {
+          "id": {
+            "default": "",
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "default": "",
+            "title": "Title",
+            "type": "string"
+          },
+          "kind": {
+            "default": "",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subtitle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Subtitle"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Description"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Status"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Url"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          },
+          "raw": {
+            "additionalProperties": true,
+            "title": "Raw",
+            "type": "object"
+          }
+        },
+        "title": "JsonRecord",
+        "type": "object",
+        "x-sdl": "entity"
+      },
+      "event": "node-red-connector.update_runtime_settings",
+      "background": false,
+      "long_running": false,
+      "scopes": [],
+      "owner_chat_tool": "node_red"
+    }
+  ],
+  "signals": [],
+  "schedules": [],
+  "required_scopes": [],
+  "icon_size_bytes": 508,
+  "lifecycle": {
+    "on_install": true,
+    "health_check": {
+      "interval_sec": 60
+    }
+  },
+  "lifecycle_hooks": {
+    "on_install": {
+      "signature": "(ctx) -> 'dict'"
+    }
+  },
+  "secrets": [
+    {
+      "name": "node_red_connections",
+      "description": "Vault-encrypted Node-RED Admin API connections. Managed by connect_node_red and never returned.",
+      "required": true,
+      "write_mode": "both",
+      "max_bytes": 65536,
+      "scope": "user",
+      "rotation_hint_days": 90
+    }
+  ],
+  "panels": [
+    {
+      "panel_id": "secrets",
+      "slot": "right",
+      "title": "Secrets",
+      "tree": {},
+      "icon": "KeyRound",
+      "refresh": "manual",
+      "center_overlay": false
+    },
+    {
+      "panel_id": "node_red_connect",
+      "slot": "left",
+      "title": "Node-RED",
+      "tree": {},
+      "icon": "🔴",
+      "refresh": "manual",
+      "center_overlay": false,
+      "default_width": 320,
+      "min_width": 260,
+      "max_width": 420
+    },
+    {
+      "panel_id": "node_red_help",
+      "slot": "center",
+      "title": "How to connect Node-RED",
+      "tree": {},
+      "icon": "",
+      "refresh": "manual",
+      "center_overlay": true
+    },
+    {
+      "panel_id": "node_red_center",
+      "slot": "center",
+      "title": "Node-RED",
+      "tree": {},
+      "icon": "🔴",
+      "refresh": "manual",
+      "center_overlay": true
+    },
+    {
+      "panel_id": "node_red_settings",
+      "slot": "center",
+      "title": "Node-RED settings",
+      "tree": {},
+      "icon": "",
+      "refresh": "manual",
+      "center_overlay": false
+    }
+  ]
+}
