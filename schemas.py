@@ -12,8 +12,15 @@ class ProviderConnection(sdl.Entity):
     id: str = ''
     title: str = ''
     detail: str = ''
-class ProviderConnectionList(sdl.Entity): items: list[ProviderConnection]
-class DeleteResult(sdl.Entity): ok: bool; detail: str = ''
+class ProviderConnectionList(sdl.Entity):
+    id: str = ''
+    title: str = ''
+    items: list[ProviderConnection] = []
+class DeleteResult(sdl.Entity):
+    id: str = ''
+    title: str = ''
+    ok: bool = True
+    detail: str = ''
 
 class ConnectNodeRedParams(BaseModel):
     base_url: str = Field(..., description='HTTPS Node-RED editor/admin URL, e.g. https://flows.example.com.')
@@ -23,11 +30,16 @@ class DisconnectNodeRedParams(BaseModel): connection_id: str
 
 class Flow(sdl.Entity):
     id: str = ''
+    title: str = ''
     type: str = ''
     label: str = ''
     disabled: bool = False
     node_count: int = 0
-class FlowList(sdl.Entity): items: list[Flow]; revision: str = ''
+class FlowList(sdl.Entity):
+    id: str = ''
+    title: str = ''
+    items: list[Flow] = []
+    revision: str = ''
 class GetFlowParams(Resource): pass
 class ListFlowsParams(Conn): pass
 class CreateFlowParams(Conn):
@@ -45,7 +57,10 @@ class JsonRecord(sdl.Entity):
     title: str = ''
     detail: str = ''
     raw: dict[str, Any] = Field(default_factory=dict)
-class JsonRecordList(sdl.Entity): items: list[JsonRecord]
+class JsonRecordList(sdl.Entity):
+    id: str = ''
+    title: str = ''
+    items: list[JsonRecord] = []
 class ListNodesParams(Conn): pass
 class ListProjectsParams(Conn): pass
 class ListLibraryParams(Conn):
@@ -63,6 +78,8 @@ class ProjectCreateParams(ProjectActionParams):
     description: str = Field('', max_length=500)
 
 class Audit(sdl.Entity):
+    id: str = ''
+    title: str = ''
     connection_id: str = ''
     flow_count: int = 0
     disabled_flow_count: int = 0
