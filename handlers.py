@@ -59,8 +59,13 @@ async def list_flows(ctx, params: ListFlowsParams) -> ActionResult:
     conn, failure = await _conn(ctx, params.connection_id)
     if failure: return failure
     try:
-        body = await api.request(ctx, conn, 'GET', '/flows'); flows = body.get('flows', body if isinstance(body, list) else [])
-        return ActionResult.success(data=FlowList(items=[_flow(x) for x in flows if isinstance(x, dict)], revision=str(body.get('rev', '')) if isinstance(body, dict) else ''), summary=f'{len(flows)} flow(s) found.')
+        body = await api.request(ctx, conn, 'GET', '/flows')
+        raw = body if isinstance(body, list) else body.get('flows', [])
+        tabs = [x for x in raw if isinstance(x, dict) and x.get('type') == 'tab']
+        counts = Counter(str(n.get('z', '')) for n in raw if isinstance(n, dict) and n.get('type') != 'tab')
+        items = [Flow(id=str(t.get('id', '')), title=str(t.get('label', t.get('name', ''))), type='tab', label=str(t.get('label', t.get('name', ''))), disabled=bool(t.get('disabled', False)), node_count=counts.get(str(t.get('id', '')), 0)) for t in tabs]
+        revision = str(body.get('rev', '')) if isinstance(body, dict) else ''
+        return ActionResult.success(data=FlowList(items=items, revision=revision), summary=f'{len(items)} flow(s) found.')
     except api.ClientFail as err: return _error(err)
 
 @chat.function('get_flow', 'Read one complete Node-RED flow by id.', action_type='read', chain_callable=True, data_model=JsonRecord, event='node-red-connector.get_flow')
@@ -143,10 +148,12 @@ async def audit_node_red_runtime(ctx, params: AuditParams) -> ActionResult:
     conn, failure = await _conn(ctx, params.connection_id)
     if failure: return failure
     try:
-        body = await api.request(ctx, conn, 'GET', '/flows'); flows = body.get('flows', body if isinstance(body, list) else [])
-        all_nodes = [n for f in flows if isinstance(f, dict) for n in f.get('nodes', []) if isinstance(n, dict)]
+        body = await api.request(ctx, conn, 'GET', '/flows')
+        raw = body if isinstance(body, list) else body.get('flows', [])
+        tabs = [x for x in raw if isinstance(x, dict) and x.get('type') == 'tab']
+        all_nodes = [n for n in raw if isinstance(n, dict) and n.get('type') != 'tab']
         types = Counter(str(n.get('type', 'unknown')) for n in all_nodes)
         risky = sorted(t for t in types if any(word in t.lower() for word in ('exec', 'http request', 'mqtt out', 'email', 'function')))
-        data = Audit(connection_id=conn['id'], flow_count=len(flows), disabled_flow_count=sum(bool(f.get('disabled')) for f in flows if isinstance(f, dict)), node_type_count=len(types), risk_markers=[f'{x} ({types[x]} node(s))' for x in risky], detail='Markers identify side-effect-capable node types; they are not findings of misuse.')
+        data = Audit(connection_id=conn['id'], flow_count=len(tabs), disabled_flow_count=sum(bool(t.get('disabled')) for t in tabs), node_type_count=len(types), risk_markers=[f'{x} ({types[x]} node(s))' for x in risky], detail='Markers identify side-effect-capable node types; they are not findings of misuse.')
         return ActionResult.success(data=data, summary=f'Audited {data.flow_count} flow(s): {data.disabled_flow_count} disabled, {data.node_type_count} node types.')
     except api.ClientFail as err: return _error(err)
